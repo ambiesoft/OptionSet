@@ -123,6 +123,9 @@
 //      p.Parse (new string[]{"-a-"});  // sets v == null
 //
 
+// Added by ambiesoft
+// Add SafeParse()
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -741,6 +744,23 @@ namespace NDesk.Options {
 			if (c.Option != null)
 				c.Option.Invoke (c);
 			return unprocessed;
+		}
+		public List<string> SafeParse(IEnumerable<string> arguments)
+        {
+			try
+			{
+				return Parse(arguments);
+			}
+			catch (Exception ex)
+			{
+				System.Windows.Forms.MessageBox.Show(ex.Message,
+					System.Windows.Forms.Application.ProductName,
+					System.Windows.Forms.MessageBoxButtons.OK,
+					System.Windows.Forms.MessageBoxIcon.Error);
+					
+				Environment.Exit(-1);
+			}
+			return null;
 		}
 #endif
 
